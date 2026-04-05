@@ -7,5 +7,27 @@
 </head>
 <body>
     <h1>Chatting</h1>
+     <input type="text" placeholder="Enter Something" id="message"/>
+     <button id="sendBtn">Send MSG</button>
+<di id="AllMessage"></di>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        const socket = io()
+        const sendBTN = document.querySelector("#sendBtn")
+        const messageInput = document.querySelector("#message")
+        const AllMessage = document.querySelector("#AllMessage")
+
+        socket.on('message', message => {
+            const p = document.createElement('p')
+            p.innerText = message
+            AllMessage.appendChild(p)
+        })
+
+        sendBTN.addEventListener('click', (e) => {
+            const message = messageInput.value
+            socket.emit("user-message", message)
+        })
+    </script>
 </body>
 </html>

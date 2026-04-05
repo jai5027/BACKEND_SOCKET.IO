@@ -9,8 +9,10 @@ app.use(express.static(path.resolve("./public")))
 const server = http.createServer(app)
 const io = new Server(server)
 
-io.on("connection", (client) => {
-    console.log("New user connected", Socket.id)
+io.on("connection", (socket) => {
+    socket.on("user-message", (message) => {
+        io.emit("message", message)
+    })
 })
 
 app.get('/', (req, res) => {
